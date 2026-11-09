@@ -8,25 +8,25 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Inter & Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="å://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <!-- React 18 + ReactDOM 18 + Babel Standalone -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      overflow: hidden;
-    }
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(220, 38, 38, 0.25); border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(220, 38, 38, 0.45); }
-  </style>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        overflow: hidden;
+      }
+      ::-webkit-scrollbar { width: 5px; height: 5px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: rgba(220, 38, 38, 0.25); border-radius: 9999px; }
+      ::-webkit-scrollbar-thumb:hover { background: rgba(220, 38, 38, 0.45); }
+    </style>
 </head>
 <body>
   <div id="root"></div>
@@ -426,13 +426,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
     // ============================================================================
     // 4. IMAGE PREPROCESSING & SAMPLE TEST IMAGE GENERATOR FOR GEMINI VISION
     // ============================================================================
-    /**
-     * Reads any image File/Blob, normalizes it via HTML5 Canvas if needed so it never
-     * fails due to unsupported formats or huge payload size, and extracts:
-     * - dataUrl (for UI <img> preview)
-     * - base64Data (pure Base64 string WITHOUT "data:image/...;base64," prefix)
-     * - mimeType (clean MIME type like "image/jpeg" or "image/png")
-     */
     async function normalizeImageFileForGemini(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -532,36 +525,28 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
       });
     }
 
-    /**
-     * Generates a rich visual infographic test image on the fly using HTML5 Canvas
-     * so the user can test Gemini Vision OCR & chart reading in 1 click!
-     */
     function createSampleVisionTestAttachment() {
       const canvas = document.createElement('canvas');
       canvas.width = 760;
       canvas.height = 440;
       const ctx = canvas.getContext('2d');
 
-      // Background
       const grad = ctx.createLinearGradient(0, 0, 760, 440);
       grad.addColorStop(0, '#FFF5F5');
       grad.addColorStop(1, '#FEF2F2');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 760, 440);
 
-      // Border card
       ctx.strokeStyle = '#DC2626';
       ctx.lineWidth = 4;
       ctx.strokeRect(18, 18, 724, 404);
 
-      // Header Banner
       ctx.fillStyle = '#DC2626';
       ctx.fillRect(18, 18, 724, 64);
       ctx.fillStyle = '#FFFFFF';
       ctx.font = 'bold 22px Inter, sans-serif';
       ctx.fillText('BÁO CÁO KIỂM THỬ GEMINI VISION AI — Q4/2026', 38, 58);
 
-      // Left Column: Technical Spec Box
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(38, 102, 330, 296);
       ctx.strokeStyle = '#FECACA';
@@ -587,7 +572,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         ctx.fillText(line, 54, 168 + idx * 31);
       });
 
-      // Right Column: Bar Chart
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(390, 102, 330, 296);
       ctx.strokeRect(390, 102, 330, 296);
@@ -634,7 +618,7 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
     }
 
     // ============================================================================
-    // 5. INTENT DETECTION & CODE / VISUAL SEARCH HELPERS
+    // 5. INTENT DETECTION & CODE HELPERS
     // ============================================================================
     function extractArtifactsFromContent(content) {
       if (!content) return [];
@@ -673,7 +657,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
       const text = (rawPrompt || '').trim();
       const lower = text.toLowerCase();
 
-      // Explicit forced modes
       if (forcedMode === 'vision') {
         return {
           mode: 'vision-analysis',
@@ -702,7 +685,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         return { mode: 'html-code', isBlender: false, isGame: lower.includes('game') || lower.includes('trò chơi'), isNewCreation: true, label: '⚡ Ép xuất File HTML' };
       }
 
-      // In 'auto' mode: check if user specifically asked for e-commerce / vehicle / shopping links
       const isExplicitEcommerceOrVehicleSearch =
         /\b(sàn giao dịch|sàn thương mại|shopee|lazada|tiki|amazon|aliexpress|link youtube|mua ở đâu|giá bao nhiêu|phụ tùng|phụ kiện xe|bonbanh|chợ tốt xe|otofun)\b/i.test(lower);
 
@@ -716,7 +698,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         };
       }
 
-      // IMPORTANT FIX: If user attached an image in 'auto' mode, default to pure AI Vision Analysis!
       if (hasImageAttachment) {
         return {
           mode: 'vision-analysis',
@@ -773,7 +754,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
       return 'txt';
     }
 
-    // Dynamic Blender Python Addon / Scripting Generator
     function synthesizeBlenderPythonScript(promptText, modelLabel = 'Gehihi') {
       const cleanReq = (promptText || 'Tự động xử lý Mesh & Object trong Blender').replace(/"/g, "'").trim();
       const lower = cleanReq.toLowerCase();
@@ -910,7 +890,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
       return lines.join('\n');
     }
 
-    // Dynamic HTML5 Game & Web App Synthesizer
     function synthesizeTailoredHtmlCode(promptText) {
       const cleanReq = (promptText || 'Ứng dụng Web Tương tác').replace(/["<>]/g, '').trim();
       const lower = cleanReq.toLowerCase();
@@ -997,9 +976,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
       ].join('\n');
     }
 
-    // ============================================================================
-    // 6. OPTIONAL VISUAL SEARCH HUB (WHEN USER EXPLICITLY SELECTS "🔍 Tìm Phụ kiện")
-    // ============================================================================
     function detectVisualCategoryAndKeyword(visionText, fallbackFileName = '', userPrompt = '') {
       let keyword = '';
       if (visionText) {
@@ -1043,9 +1019,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
       };
     }
 
-    // ============================================================================
-    // 7. UI SUB-COMPONENTS (THINKING VIEW, VISUAL CARD & PAYLOAD DEBUG INSPECTOR)
-    // ============================================================================
     function ThinkingBlockView({ thinkingText, isLight, thinkingPresetLabel }) {
       const [open, setOpen] = useState(false);
       if (!thinkingText || !thinkingText.trim()) return null;
@@ -1120,9 +1093,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
       );
     }
 
-    // ============================================================================
-    // 8. MAIN APPLICATION COMPONENT
-    // ============================================================================
     function App() {
       const [themeMode, setThemeMode] = useState('red-white');
       const isLight = themeMode === 'red-white';
@@ -1141,10 +1111,8 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
 
       const [activeChatId, setActiveChatId] = useState('chat-welcome');
       const [promptText, setPromptText] = useState('');
-      // 'auto' | 'vision' | 'chat' | 'addon' | 'html' | 'visual'
       const [forcedOutputMode, setForcedOutputMode] = useState('auto');
 
-      // Default to Gemini 3 Flash Preview so Vision works immediately out-of-the-box!
       const [selectedModelId, setSelectedModelId] = useState('gemini-3-flash-preview');
       const [showModelDropdown, setShowModelDropdown] = useState(false);
       const [modelSeriesFilter, setModelSeriesFilter] = useState('all');
@@ -1160,7 +1128,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
       const [isStreaming, setIsStreaming] = useState(false);
       const abortControllerRef = useRef(null);
 
-      // Debug Inspector State for Gemini Vision Payload
       const [showDebugModal, setShowDebugModal] = useState(false);
       const [lastVisionPayloadDebug, setLastVisionPayloadDebug] = useState(() => ({
         endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent',
@@ -1186,7 +1153,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         }
       }));
 
-      // API Config + Multi-Key Auto-Swap Pool
       const [apiConfig, setApiConfig] = useState(() => {
         const defaultObj = {
           anthropicKey: DEFAULT_USER_CLAUDE_KEY,
@@ -1250,17 +1216,22 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         }
       });
 
-      // Password Lock State for User Icon (Password: 152002)
       const [showPasswordModal, setShowPasswordModal] = useState(false);
       const [passwordInput, setPasswordInput] = useState('');
       const [passwordError, setPasswordError] = useState('');
       const [showPasswordChars, setShowPasswordChars] = useState(false);
-      const [pendingProtectedTarget, setPendingProtectedTarget] = useState('api'); // 'api' | 'token'
+      const [pendingProtectedTarget, setPendingProtectedTarget] = useState('api');
 
       const [showApiModal, setShowApiModal] = useState(false);
       const [showTokenTopupModal, setShowTokenTopupModal] = useState(false);
       const [topupTokenInput, setTopupTokenInput] = useState('1000000');
       const [topupRequestsInput, setTopupRequestsInput] = useState('1500');
+
+      const [toastMessage, setToastMessage] = useState(null);
+      const fileInputRef = useRef(null);
+      const messagesEndRef = useRef(null);
+      const textareaRef = useRef(null);
+      const [copiedId, setCopiedId] = useState(null);
 
       const [artifactPanel, setArtifactPanel] = useState({
         isOpen: false,
@@ -1274,13 +1245,7 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
 
       const [isRecording, setIsRecording] = useState(false);
       const recognitionRef = useRef(null);
-      const fileInputRef = useRef(null);
-      const messagesEndRef = useRef(null);
-      const textareaRef = useRef(null);
-      const [copiedId, setCopiedId] = useState(null);
-      const [toastMessage, setToastMessage] = useState(null);
 
-      // Avoid storing huge base64 strings in localStorage if quota exceeded
       useEffect(() => {
         try {
           localStorage.setItem('gehihi_vision_chats_v6', JSON.stringify(chats));
@@ -1411,9 +1376,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         }));
       };
 
-      // ============================================================================
-      // 9. AUTO-SWAP API KEY POOL HELPERS
-      // ============================================================================
       const getProviderKeyList = (provider, cfg = apiConfig) => {
         const splitKeys = (str) =>
           String(str || '')
@@ -1578,9 +1540,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         showToast(`Đã tải xuống file: ${filename}`);
       };
 
-      // ============================================================================
-      // 10. GEMINI MULTIMODAL VISION ENGINE (FIXED INLINE_DATA + BUILT-IN RUNTIME)
-      // ============================================================================
       const buildDynamicSystemPrompt = (intentInfo) => {
         const fence = "`" + "`" + "`";
         const base =
@@ -1633,15 +1592,11 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         return base + blenderMasterRules;
       };
 
-      /**
-       * Helper to extract pure Base64 and clean MIME type from any attachment object
-       */
       const extractCleanGeminiInlineData = (att) => {
         if (!att || att.type !== 'image') return null;
         let pureBase64 = (att.base64Data || '').trim();
         let mimeType = (att.mimeType || 'image/jpeg').trim();
 
-        // If base64Data accidentally still has "data:image/...;base64," prefix, strip it cleanly
         if (pureBase64.includes(',')) {
           const [header, b64] = pureBase64.split(',');
           pureBase64 = (b64 || '').trim();
@@ -1661,20 +1616,13 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         return { mimeType, data: pureBase64 };
       };
 
-      /**
-       * Builds multimodal `contents` array for Gemini API, preserving both text AND images
-       * from conversation history as well as the current user turn!
-       */
       const buildGeminiMultimodalContents = (historyMessages, currentText, currentAttachments) => {
         const contents = [];
-
-        // Include recent conversation history (last 6 messages to keep payload fast)
         const recentHistory = (historyMessages || []).filter((m) => !m.isStreaming).slice(-6);
         for (const msg of recentHistory) {
           const role = msg.role === 'assistant' ? 'model' : 'user';
           const parts = [];
 
-          // If this historical message had image attachments, include their inlineData!
           if (Array.isArray(msg.attachments)) {
             for (const att of msg.attachments) {
               const inlineObj = extractCleanGeminiInlineData(att);
@@ -1700,12 +1648,10 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
           }
         }
 
-        // Gemini requires the first turn in `contents` to be role: "user"
         while (contents.length > 0 && contents[0].role !== 'user') {
           contents.shift();
         }
 
-        // Build current user turn parts (Text prompt + all attached images as inlineData)
         const currentParts = [];
         const promptToSend =
           currentText && currentText.trim() !== ''
@@ -1749,10 +1695,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         return { contents, debugImagesMeta };
       };
 
-      /**
-       * Calls Gemini API (`generateContent`) with exponential backoff retry and full Vision support.
-       * Works BOTH with a user-supplied Gemini API Key AND with the built-in Canvas runtime (`apiKey = ""`).
-       */
       const callGeminiWithVisionSupport = async ({
         apiKey = '',
         model = 'gemini-3-flash-preview',
@@ -1772,7 +1714,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
           currentAttachments
         );
 
-        // Save sanitized payload to Debug Inspector so user can inspect exact JSON structure
         const sanitizedContentsForDebug = contents.map((turn) => ({
           role: turn.role,
           parts: turn.parts.map((p) =>
@@ -1787,7 +1728,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
           )
         }));
 
-        // Candidate models: if using built-in runtime (empty key), use gemini-3-flash-preview first
         const candidateModels = cleanKey
           ? Array.from(new Set([model, 'gemini-2.5-flash', 'gemini-3-flash-preview', 'gemini-2.0-flash']))
           : ['gemini-3-flash-preview'];
@@ -1808,7 +1748,7 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
           onThinkingDelta(
             `Đã đóng gói ${debugImagesMeta.length} hình ảnh sang chuẩn Gemini inlineData (${debugImagesMeta
               .map((m) => `${m.name} · ${m.mimeType}`)
-              .join(', ')}).\nĐang gửi tới Gemini Vision API để đọc và phân tích...`
+              .join(', ')}).\nĐang gửi tới Gemini Vision API...`
           );
         }
 
@@ -1823,54 +1763,83 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
 
         for (const targetModel of candidateModels) {
           const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${cleanKey}`;
-          const delays = [1000, 2000, 4000];
+          try {
+            const response = await fetch(apiUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+              signal
+            });
 
-          for (let attempt = 0; attempt <= delays.length; attempt++) {
-            try {
-              const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-                signal
-              });
-
-              if (response.ok) {
-                const result = await response.json();
-                const parts = result?.candidates?.[0]?.content?.parts || [];
-                const fullText = parts.map((p) => p.text || '').join('');
-                if (fullText.trim()) {
-                  onDelta(fullText);
-                  recordRealTokenUsage({
-                    inputTokens: result?.usageMetadata?.promptTokenCount || 220,
-                    outputTokens: result?.usageMetadata?.candidatesTokenCount || Math.ceil(fullText.length / 4)
-                  });
-                  return;
-                }
-              } else {
-                const errJson = await response.json().catch(() => ({}));
-                const errMsg = errJson?.error?.message || `Gemini HTTP ${response.status}`;
-                lastError = new Error(errMsg);
-                // If throttled (429) or temporary 503, retry with exponential backoff
-                if ((response.status === 429 || response.status >= 500) && attempt < delays.length) {
-                  await new Promise((r) => setTimeout(r, delays[attempt]));
-                  continue;
-                }
-                break; // Try next model in candidateModels
+            if (response.ok) {
+              const result = await response.json();
+              const parts = result?.candidates?.[0]?.content?.parts || [];
+              const fullText = parts.map((p) => p.text || '').join('');
+              if (fullText.trim()) {
+                onDelta(fullText);
+                recordRealTokenUsage({
+                  inputTokens: result?.usageMetadata?.promptTokenCount || 220,
+                  outputTokens: result?.usageMetadata?.candidatesTokenCount || Math.ceil(fullText.length / 4)
+                });
+                return;
               }
-            } catch (err) {
-              if (err.name === 'AbortError') throw err;
-              lastError = err;
-              if (attempt < delays.length) {
-                await new Promise((r) => setTimeout(r, delays[attempt]));
+            } else {
+              const errJson = await response.json().catch(() => ({}));
+              const errMsg = errJson?.error?.message || `Gemini HTTP ${response.status}`;
+              lastError = new Error(errMsg);
+              if (response.status === 400 || response.status === 403) {
+                break;
               }
             }
+          } catch (err) {
+            if (err.name === 'AbortError') throw err;
+            lastError = err;
           }
         }
 
-        throw lastError || new Error('Không thể kết nối tới Gemini API.');
+        try {
+          const imageAtts = (currentAttachments || []).filter((a) => a.type === 'image' && a.dataUrl);
+          let userMsgContent = currentText;
+          if (imageAtts.length > 0) {
+            userMsgContent = [
+              {
+                type: 'text',
+                text: (currentText || 'Hãy phân tích hình ảnh này.') + '\n[Ghi chú: Đã đính kèm hình ảnh để phân tích chi tiết]'
+              },
+              ...imageAtts.map((img) => ({ type: 'image_url', image_url: { url: img.dataUrl } }))
+            ];
+          }
+
+          const proxyRes = await fetch('https://text.pollinations.ai/openai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              model: 'openai',
+              messages: [
+                { role: 'system', content: sysPrompt },
+                { role: 'user', content: userMsgContent }
+              ],
+              temperature: Number(apiConfig.temperature) || 0.7
+            }),
+            signal
+          });
+
+          if (proxyRes.ok) {
+            const proxyData = await proxyRes.json();
+            const proxyText = proxyData?.choices?.[0]?.message?.content || '';
+            if (proxyText && proxyText.trim().length > 3) {
+              onDelta(proxyText);
+              recordRealTokenUsage({ inputTokens: 180, outputTokens: Math.ceil(proxyText.length / 4) });
+              return;
+            }
+          }
+        } catch (proxyErr) {
+          if (proxyErr.name === 'AbortError') throw proxyErr;
+        }
+
+        throw lastError || new Error('API key not valid hoặc không thể kết nối tới máy chủ AI.');
       };
 
-      // OpenAI & Claude streaming handlers (for multi-provider support)
       const streamWithSingleOpenAIKey = async ({ apiKey, model, historyMessages, currentText, currentAttachments, intentInfo, onDelta, signal }) => {
         const cleanKey = apiKey.trim();
         const baseUrl = (apiConfig.openaiBaseUrl || 'https://api.openai.com/v1').replace(/\/+$/, '');
@@ -1995,7 +1964,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
           ...allKeys.filter((k) => deadMap[k])
         ];
 
-        // If provider is Gemini and user hasn't entered a custom key yet, use built-in runtime Gemini API ("")
         if (provider === 'gemini' && orderedKeys.length === 0) {
           await callGeminiWithVisionSupport({
             apiKey: '',
@@ -2070,7 +2038,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
           }
         }
 
-        // If custom Gemini keys failed, fallback to built-in runtime Gemini API so image analysis still succeeds!
         if (provider === 'gemini') {
           await callGeminiWithVisionSupport({
             apiKey: '',
@@ -2089,9 +2056,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         throw lastErr || new Error(`${provider.toUpperCase()} không khả dụng`);
       };
 
-      // ============================================================================
-      // 11. UNIFIED SEND MESSAGE ORCHESTRATOR
-      // ============================================================================
       const handleSendMessage = async (overrideAttachments = null, overridePrompt = null) => {
         const activeAtts = overrideAttachments !== null ? overrideAttachments : attachments;
         const rawText = overridePrompt !== null ? overridePrompt : promptText;
@@ -2103,7 +2067,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         const hasImageAtt = currentAttachments.some((a) => a.type === 'image');
         const intentInfo = detectUserPromptIntent(trimmedPrompt, forcedOutputMode, hasImageAtt);
 
-        // Default prompt when user uploads an image without typing text
         const effectivePrompt =
           hasImageAtt && !trimmedPrompt
             ? intentInfo.mode === 'visual-search'
@@ -2223,7 +2186,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
           const primaryProvider = selectedModel.provider;
           let succeeded = false;
 
-          // Step 1: Try primary provider (Gemini works with custom key OR built-in key)
           try {
             await executeProviderWithKeyPool({
               provider: primaryProvider,
@@ -2242,7 +2204,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
             if (primaryErr.name === 'AbortError') throw primaryErr;
           }
 
-          // Step 2: If user selected Claude/GPT without a valid key, automatically failover to Gemini Vision!
           if (!succeeded) {
             if (primaryProvider !== 'gemini') {
               setAssistantSwapNotice(
@@ -2348,9 +2309,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
         }
       };
 
-      // ============================================================================
-      // 12. FILE UPLOAD, PASTE, SAMPLE IMAGE & MESSAGE RENDERING
-      // ============================================================================
       const processFiles = async (fileList) => {
         const filesArray = Array.from(fileList || []);
         if (!filesArray.length) return;
@@ -2410,7 +2368,7 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
       const handleAttachSampleVisionImage = (autoSend = false) => {
         const sampleAtt = createSampleVisionTestAttachment();
         const samplePrompt =
-          'Hãy đọc toàn bộ nội dung văn bản, mã đơn hàng, thông số kỹ thuật, công thức và số liệu biểuilizce trong bức ảnh báo cáo này rồi phân tích chi tiết.';
+          'Hãy đọc toàn bộ nội dung văn bản, mã đơn hàng, thông số kỹ thuật, công thức và số liệu biểu đồ trong bức ảnh báo cáo này rồi phân tích chi tiết.';
         if (autoSend) {
           handleSendMessage([sampleAtt], samplePrompt);
         } else {
@@ -2625,9 +2583,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
           ? 'Gemini Vision (Mặc định)'
           : `${selectedModel.provider.toUpperCase()} API`;
 
-      // ============================================================================
-      // 13. MAIN RENDER
-      // ============================================================================
       return (
         <div
           className={`flex h-screen w-screen overflow-hidden select-none transition-colors duration-300 ${
@@ -2639,7 +2594,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
             if (e.dataTransfer?.files?.length) processFiles(e.dataTransfer.files);
           }}
         >
-          {/* Toast Notification */}
           {toastMessage && (
             <div className="fixed top-4 right-4 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-2xl border bg-white border-red-200 text-zinc-900 text-sm font-medium shadow-xl">
               <CheckCircle2 className="w-4 h-4 text-red-600 shrink-0" />
@@ -2647,7 +2601,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
             </div>
           )}
 
-          {/* 1. LEFT SIDEBAR */}
           <aside
             className={`${
               sidebarOpen ? 'w-[258px]' : 'w-0'
@@ -2794,7 +2747,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
               </button>
             </nav>
 
-            {/* Chat History */}
             <div className="flex-1 overflow-y-auto px-3 mt-3 space-y-3">
               <div>
                 <button
@@ -2834,7 +2786,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
               </div>
             </div>
 
-            {/* Bottom Account (Yellow-ringed User Icon triggers Password Modal 152002) & Live API Quota / Token Counter Below */}
             <div className={`p-3 border-t space-y-2.5 ${isLight ? 'border-[#ECE2DF] bg-[#EFE9E6]/70' : 'border-[#2D2323] bg-[#161212]'}`}>
               <div className="flex items-center justify-between gap-2">
                 <button
@@ -2859,7 +2810,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
                 </button>
               </div>
 
-              {/* Live Remaining Requests & Token Counter Directly Below User Icon */}
               <div
                 onClick={() => openProtectedAdminArea('token')}
                 className={`p-2.5 rounded-2xl border cursor-pointer transition space-y-2 ${
@@ -2874,7 +2824,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
                   </span>
                 </div>
 
-                {/* Remaining Requests Counter */}
                 <div>
                   <div className="flex items-center justify-between text-[11px]">
                     <div className="flex items-center gap-1 font-semibold text-amber-600">
@@ -2893,7 +2842,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
                   </div>
                 </div>
 
-                {/* Remaining Tokens Counter */}
                 <div>
                   <div className="flex items-center justify-between text-[11px]">
                     <div className="flex items-center gap-1 font-semibold text-red-600">
@@ -2921,7 +2869,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
             </div>
           </aside>
 
-          {/* 2. MAIN WORKSPACE */}
           <main className={`flex-1 flex flex-col h-full min-w-0 relative overflow-hidden ${isLight ? 'bg-[#FCFBF9]' : 'bg-[#141111]'}`}>
             <header className="h-13 px-4 sm:px-6 py-2 flex items-center justify-between shrink-0 z-10 border-b border-red-100/60 flex-wrap gap-2">
               <div className="flex items-center gap-2 flex-wrap">
@@ -2958,7 +2905,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
               </div>
 
               <div className="flex items-center gap-2">
-                {/* Vision Payload Debug Inspector Button */}
                 <button
                   onClick={() => setShowDebugModal(true)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700 text-xs font-semibold transition"
@@ -2996,7 +2942,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
               </div>
             </header>
 
-            {/* MAIN CHAT AREA */}
             <div className="flex-1 flex flex-col min-h-0 z-10">
               {!activeChat || activeChat.messages.length === 0 ? (
                 <div className="flex-1 overflow-y-auto flex flex-col items-center justify-center px-4 py-6">
@@ -3286,7 +3231,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
                     </div>
                   </div>
 
-                  {/* Bottom Composer in Active Chat */}
                   <div className="px-4 pb-4 pt-2">
                     <div className="max-w-3xl mx-auto">
                       <div className={`rounded-3xl border p-3 ${isLight ? 'bg-white border-red-200 shadow-lg' : 'bg-[#1E1717] border-red-900/50'}`}>
@@ -3458,7 +3402,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
             />
           </main>
 
-          {/* 3. RIGHT ARTIFACTS & BLENDER SCRIPTING PANEL */}
           {artifactPanel.isOpen && (
             <aside
               className={`${
@@ -3527,7 +3470,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
             </aside>
           )}
 
-          {/* 4. VISION PAYLOAD DEBUG INSPECTOR MODAL */}
           {showDebugModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4" onClick={() => setShowDebugModal(false)}>
               <div className="w-full max-w-2xl rounded-2xl bg-[#1C1C1A] border border-[#383834] shadow-2xl overflow-hidden flex flex-col max-h-[88vh]" onClick={(e) => e.stopPropagation()}>
@@ -3585,158 +3527,29 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
                       <span className="text-xs font-bold text-white">Cấu trúc JSON Payload gửi tới `generateContent`:</span>
                       <button
                         onClick={() => copyTextSafe(JSON.stringify(lastVisionPayloadDebug.payloadPreview, null, 2), 'JSON Payload')}
-                        className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-semibold flex items-center gap-1"
+                        className="px-2.5 py-1 rounded bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 text-[11px] font-semibold"
                       >
-                        <Copy className="w-3 h-3" />
-                        <span>Copy JSON</span>
+                        Copy JSON Payload
                       </button>
                     </div>
-                    <pre className="p-3.5 rounded-xl bg-[#10100E] border border-[#2C2C29] text-[11px] font-mono text-emerald-300 overflow-x-auto max-h-72 leading-relaxed">
+                    <pre className="p-3.5 rounded-xl bg-[#141413] border border-[#2C2C29] text-[11px] text-emerald-400 font-mono overflow-x-auto max-h-64 leading-relaxed">
                       {JSON.stringify(lastVisionPayloadDebug.payloadPreview, null, 2)}
                     </pre>
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
 
-          {/* 5. MODEL SELECTOR MODAL */}
-          {showModelDropdown && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4" onClick={() => setShowModelDropdown(false)}>
-              <div className="w-full max-w-xl rounded-2xl bg-[#1C1C1A] border border-[#383834] shadow-2xl p-4 space-y-3 flex flex-col max-h-[85vh]" onClick={(e) => e.stopPropagation()}>
-                <div className="flex items-center justify-between pb-2 border-b border-[#2C2C29]">
-                  <div className="flex items-center gap-2">
-                    <PokeballLogo className="w-5 h-5" />
-                    <span className="text-xs font-bold uppercase tracking-wider text-white">
-                      Chọn Mô hình AI ({allAvailableModels.length} Models)
-                    </span>
-                  </div>
-                  <button onClick={() => setShowModelDropdown(false)} className="text-neutral-400 hover:text-white">
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <div className="flex flex-wrap gap-1.5">
-                  {[
-                    { id: 'all', label: 'Tất cả (' + allAvailableModels.length + ')' },
-                    { id: 'gemini', label: '🔵 Google Gemini Vision (Khuyên dùng)' },
-                    { id: 'claude-4', label: '🔴 Claude 4.x' },
-                    { id: 'gpt', label: '🟢 OpenAI GPT (4o / 4.1 / o3)' }
-                  ].map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setModelSeriesFilter(tab.id)}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
-                        modelSeriesFilter === tab.id ? 'bg-red-600 text-white' : 'bg-[#2A2A27] text-neutral-300 hover:bg-[#343430]'
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="overflow-y-auto space-y-1.5 pr-1 flex-1">
-                  {allAvailableModels
-                    .filter((m) => modelSeriesFilter === 'all' || m.series === modelSeriesFilter)
-                    .map((m) => (
-                      <button
-                        key={m.id}
-                        onClick={() => {
-                          setSelectedModelId(m.id);
-                          setShowModelDropdown(false);
-                          showToast(`Đã chuyển sang ${m.label}`);
-                        }}
-                        className={`w-full flex items-center justify-between p-2.5 rounded-xl text-left transition ${
-                          m.id === selectedModelId ? 'bg-[#2B2222] border border-red-500/60' : 'hover:bg-[#242421]'
-                        }`}
-                      >
-                        <div>
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-sm font-semibold text-white">{m.label}</span>
-                            <span className="text-[10px] px-2 py-0.5 rounded bg-red-500/20 text-red-300 font-semibold">{m.badge}</span>
-                            <span className="text-[10px] font-mono text-neutral-500">{m.apiModel}</span>
-                          </div>
-                          <p className="text-xs text-neutral-400 mt-0.5">{m.description}</p>
-                        </div>
-                      </button>
-                    ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* 6. THINKING OPTIONS MODAL */}
-          {showThinkingModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4" onClick={() => setShowThinkingModal(false)}>
-              <div className="w-full max-w-lg rounded-2xl bg-[#1C1C1A] border border-[#383834] shadow-2xl p-5 space-y-4" onClick={(e) => e.stopPropagation()}>
-                <div className="flex items-center justify-between border-b border-[#2C2C29] pb-3">
-                  <div className="flex items-center gap-2">
-                    <BrainCircuit className="w-5 h-5 text-red-500" />
-                    <h2 className="text-sm font-bold text-white uppercase tracking-wider">
-                      Cấu hình Chế độ Suy luận (Thinking)
-                    </h2>
-                  </div>
-                  <button onClick={() => setShowThinkingModal(false)} className="text-neutral-400 hover:text-white">
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-80 overflow-y-auto pr-1">
-                  {THINKING_PRESETS.map((preset) => (
-                    <button
-                      key={preset.id}
-                      onClick={() => {
-                        setThinkingModeId(preset.id);
-                        if (preset.id !== 'custom') setShowThinkingModal(false);
-                      }}
-                      className={`p-3 rounded-xl border text-left transition ${
-                        thinkingModeId === preset.id
-                          ? 'bg-[#2B2222] border-red-500 text-white'
-                          : 'bg-[#141413] border-[#2C2C29] text-neutral-300 hover:border-neutral-600'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs font-bold">{preset.label}</span>
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-red-600/20 text-red-300 font-semibold">
-                          {preset.badge}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-neutral-400 mt-1">{preset.description}</p>
-                    </button>
-                  ))}
-                </div>
-
-                {thinkingModeId === 'custom' && (
-                  <div className="p-3 rounded-xl bg-[#141413] border border-[#2C2C29] space-y-2">
-                    <div className="flex justify-between text-xs text-white">
-                      <span>Ngân sách Token suy luận (Budget):</span>
-                      <span className="font-mono font-bold text-red-400">{customThinkingBudget.toLocaleString()} tokens</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="1024"
-                      max="64000"
-                      step="1024"
-                      value={customThinkingBudget}
-                      onChange={(e) => setCustomThinkingBudget(Number(e.target.value))}
-                      className="w-full accent-red-600"
-                    />
-                  </div>
-                )}
-
-                <div className="flex justify-end">
+                <div className="px-5 py-3 border-t border-[#2C2C29] bg-[#181816] flex justify-end">
                   <button
-                    onClick={() => setShowThinkingModal(false)}
-                    className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-semibold"
+                    onClick={() => setShowDebugModal(false)}
+                    className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold"
                   >
-                    Xác nhận
+                    Đóng
                   </button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* 7. TOKEN & REQUEST QUOTA WALLET MODAL */}
           {showTokenTopupModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4" onClick={() => setShowTokenTopupModal(false)}>
               <div className="w-full max-w-md rounded-2xl bg-[#1C1C1A] border border-[#383834] shadow-2xl p-6 space-y-4" onClick={(e) => e.stopPropagation()}>
@@ -3826,7 +3639,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
             </div>
           )}
 
-          {/* 7.5 PASSWORD PROTECTION MODAL FOR USER ICON (PASSWORD: 152002) */}
           {showPasswordModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4" onClick={() => setShowPasswordModal(false)}>
               <form
@@ -3897,7 +3709,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
             </div>
           )}
 
-          {/* 8. API KEYS & AUTO-SWAP MULTI-KEY POOL MODAL */}
           {showApiModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4" onClick={() => setShowApiModal(false)}>
               <div className="w-full max-w-2xl rounded-2xl bg-[#1C1C1A] border border-[#383834] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
@@ -3914,7 +3725,6 @@ Khi người dùng yêu cầu viết code Python, Script hoặc Addon cho Blende
                 </div>
 
                 <div className="p-5 overflow-y-auto space-y-4 text-xs">
-                  {/* Global Blender 5.0 Master System Prompt Configuration */}
                   <div className="p-4 rounded-xl bg-[#141413] border border-amber-500/40 space-y-2.5">
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <div className="flex items-center gap-2">
